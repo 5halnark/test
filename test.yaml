@@ -20,7 +20,7 @@ paths:
         '200':
           description: No response was specified
       tags:
-        - M0X0101_XSS_D
+        - XBC_XSS_D
       operationId: findAccounts
       summary: Finds all accounts
   '/hack/hachid/{id}':
