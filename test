@@ -1,0 +1,14 @@
+# Define file paths
+$inputFile = "C:\path\to\input.txt"   # File containing Base64-encoded data
+$outputFile = "C:\path\to\output.bin" # Output file for decoded content
+
+# Read the Base64 content
+$base64String = Get-Content $inputFile -Raw
+
+# Convert from Base64
+$decodedBytes = [System.Convert]::FromBase64String($base64String)
+
+# Write the decoded content to output file
+[System.IO.File]::WriteAllBytes($outputFile, $decodedBytes)
+
+Write-Host "Decoded content saved to: $outputFile"
